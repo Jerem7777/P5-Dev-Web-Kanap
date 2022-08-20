@@ -89,9 +89,10 @@ function buildOptionColorToHtml(color) {
   return option;
 }
 
+// Ajouter un produit au panier
 function addProductToCart(product, color, quantity) {
   let data = {
-    id: product.id,
+    id: product._id,
     color: color,
     quantity: quantity,
   };
@@ -108,7 +109,7 @@ function addProductToCart(product, color, quantity) {
   localStorage.setItem(CART_KEY, JSON.stringify(tab));
 }
 
-// Récupérer produit dans le panier
+// Récupérer produits dans le panier
 function findProductsFromCart() {
   let testCart = localStorage.getItem(CART_KEY);
   // Vérification Panier
