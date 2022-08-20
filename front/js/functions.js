@@ -43,11 +43,78 @@ function buildProductToHtml(product) {
 
   return a;
 }
-
+// Trouver un produit par son ID
 async function findProductById(id) {
-  new URL(location.href).searchParams.get("id");
+  let response = await fetch(`${BASE_URL}/${id}`, {
+    method: "GET",
+  });
+
+  return response.json();
+}
+// Retour du prix d'un produit
+function formatPrice(price) {
+  return price;
+}
+// Implantation dans l'HTML
+function buildDetailsOfProduct(product) {
+  let itemImg = document.querySelector(".item__img");
+
+  let img = document.createElement("img");
+  img.setAttribute("src", product.imageUrl);
+  img.setAttribute("alt", product.altTxt);
+
+  itemImg.append(img);
+
+  let h1 = document.querySelector("#title");
+  h1.textContent = product.name;
+
+  let span = document.querySelector("#price");
+  span.textContent = formatPrice(product.price);
+
+  let p = document.querySelector("#description");
+  p.textContent = product.description;
+
+  let select = document.querySelector("#colors");
+  for (let color of product.colors) {
+    let option = buildOptionColorToHtml(color);
+    select.append(option);
+  }
 }
 
-function buildDetailsOfProduct(product) {}
+// Mise en place de l'option color dans l'HTML
+function buildOptionColorToHtml(color) {
+  let option = document.createElement("option");
+  option.setAttribute("value", color);
+  option.textContent = color;
+  return option;
+}
 
-function buildOptionColorToHtml(color) {}
+function addProductToCart(product, color, quantity) {
+  let data = {
+    id: product.id,
+    color: color,
+    quantity: quantity,
+  };
+
+  // Retourne le contenu du localStorage
+  let addedProducts = localStorage.getItem(CART_KEY);
+  let tab;
+  if (addedProducts == null) {
+    tab = [];
+  } else {
+    tab = Json.parse(product);
+  }
+  tab.push(data);
+  localStorage.setItem(CART_KEY, JSON.stringify(tab));
+}
+
+// Récupérer produit dans le panier
+function findProductsFromCart() {
+  let testCart = localStorage.getItem(CART_KEY);
+  // Vérification Panier
+  if (testCart == null) {
+    return [];
+  } else {
+    return Json.parse(testCart);
+  }
+}
