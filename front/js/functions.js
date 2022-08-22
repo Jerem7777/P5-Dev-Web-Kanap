@@ -98,15 +98,17 @@ function addProductToCart(product, color, quantity) {
   };
 
   // Retourne le contenu du localStorage
-  let addedProducts = localStorage.getItem(CART_KEY);
-  let tab;
-  if (addedProducts == null) {
-    tab = [];
+  let addedProducts = findProductsFromCart();
+  let checkCart = addedProducts.find(
+    (p) => p.id == product._id && p.color == color
+  );
+  if (checkCart != undefined) {
+    checkCart.quantity = parseInt(checkCart.quantity) + parseInt(quantity);
   } else {
-    tab = Json.parse(product);
+    addedProducts.push(data);
   }
-  tab.push(data);
-  localStorage.setItem(CART_KEY, JSON.stringify(tab));
+
+  localStorage.setItem(CART_KEY, JSON.stringify(addedProducts));
 }
 
 // Récupérer produits dans le panier
@@ -116,6 +118,10 @@ function findProductsFromCart() {
   if (testCart == null) {
     return [];
   } else {
-    return Json.parse(testCart);
+    return JSON.parse(testCart);
   }
+}
+
+function isInt(x) {
+  return parseInt(x) == x;
 }

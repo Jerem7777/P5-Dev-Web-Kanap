@@ -38,11 +38,12 @@ productsPromise.then(function (product) {
       quantiteProduit === undefined ||
       quantiteProduit === "" ||
       quantiteProduit < 1 ||
-      quantiteProduit > 100
+      quantiteProduit > 100 ||
+      !isInt(quantiteProduit)
     ) {
       // joue l'alerte
       alert(
-        "Pour valider le choix de cet article, veuillez renseigner une couleur, et/ou une quantite valide entre 1 et 100"
+        "Pour valider le choix de cet article, veuillez renseigner une couleur, et/ou une quantite entière entre 1 et 100"
       );
     } else {
       addProductToCart(product, couleurProduit, quantiteProduit);
