@@ -125,3 +125,77 @@ function findProductsFromCart() {
 function isInt(x) {
   return parseInt(x) == x;
 }
+
+// Fonction qui permet de construire le code HTML de cart.html
+function buildCartProductToHtml(product) {
+  let article = document.createElement("article");
+  let img = document.createElement("img");
+  let h2 = document.createElement("h2");
+  let p = document.createElement("p");
+
+  article.classList.add(cart__item);
+
+  div.classList.add("cart__item__img");
+
+  img.setAttribute("src", product.imageUrl);
+  img.setAttribute("alt", product.altTxt);
+
+  div.classList.add("cart__item__content");
+  div.classList.add("cart__item__content__description")(
+    (h2.textContent = product.name)((p.textContent = color))(
+      (p.textContent = price)
+    )
+  ),
+    div.classList.add("cart__item__content__settings");
+  div.classList.add("cart__item__content__settings__quantity");
+  p.quantity(quantity);
+  input.classList.add("itemQuantity");
+
+  div.classList.add("cart__item__content__settings__delete");
+
+  article.append(div);
+  article.append(img);
+  article.append(h2);
+  article.append(p);
+
+  return article;
+}
+
+//Changement de quantité
+
+function changeQuantity(product, quantity) {
+  let findProductsFromCart = getfindProductsFromCart();
+  let foundProduct = basket.find((p) => p.id == product.id);
+  if (foundProduct != undefined) {
+    foundProduct.quantity += quantity;
+  }
+}
+
+// Supprimer du panier
+
+function removeFromBasket(product) {
+  let findProductsFromCart = getfindProductsFromCart();
+  basket = basket.filter((p) => p.id != product.id);
+  savefindProductsFromCart(basket);
+}
+
+// Total des produits dans le panier
+function getNumberProduct()
+let findProductsFromCart = getfindProductsFromCart();{
+let number = 0;
+for (let product of findProductsFromCart) {
+  number += product.quantity;
+}
+return number;
+}
+
+// Prix total
+
+function getTotalPrice()
+let findProductsFromCart = getfindProductsFromCart();{
+let total = 0;
+for (let product of findProductsFromCart) {
+  total += product.quantity * product.price;
+}
+return total;
+}
