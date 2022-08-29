@@ -1,8 +1,8 @@
 const params = new URLSearchParams(window.location.search);
 let productId = params.get("id");
 console.log("L'identifiant du produit est", productId);
-let productsPromise = findProductById(productId);
-productsPromise.then(function (product) {
+let productPromise = findProductById(productId);
+productPromise.then(function (product) {
   console.log(product);
   buildDetailsOfProduct(product);
   // On écoute ce qu'il se passe dans #colors
@@ -20,7 +20,7 @@ productsPromise.then(function (product) {
   let choixquantite = document.querySelector('input[id="quantity"]');
   let quantiteProduit;
   // On écoute ce qu'il se passe dans input[name="itemQuantity"]
-  choixquantite.addEventListener("input", (eq) => {
+  choixquantite.addEventListener("change", (eq) => {
     // on récupère la valeur de la cible de l'évenement dans couleur
     quantiteProduit = eq.target.value;
     console.log(quantiteProduit);
@@ -32,15 +32,7 @@ productsPromise.then(function (product) {
     // récuper couleur choisi dans un select et la quantite dans l'input dans 2 variables ; check color ; check quantite si c est bien un nombre entre 1-100, si null marqué choisir la couleur ou un nombre entre 1-100. Si tout est ok appeler la function pour ajouter au panier
     //.......................................................................//
 
-    if (
-      couleurProduit === undefined ||
-      couleurProduit === "" ||
-      quantiteProduit === undefined ||
-      quantiteProduit === "" ||
-      quantiteProduit < 1 ||
-      quantiteProduit > 100 ||
-      !isInt(quantiteProduit)
-    ) {
+    if (!checkColorAndQuantity(couleurProduit, quantiteProduit)) {
       // joue l'alerte
       alert(
         "Pour valider le choix de cet article, veuillez renseigner une couleur, et/ou une quantite entière entre 1 et 100"
