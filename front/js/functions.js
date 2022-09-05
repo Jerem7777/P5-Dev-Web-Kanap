@@ -133,18 +133,19 @@ function updateProductQuantityInCart(productId, color, quantity) {
     (p) => p.id == productId && p.color == color
   );
   if (foundProduct != undefined) {
-    foundProduct.quantity += quantity;
+    foundProduct.quantity = parseInt(quantity);
+    localStorage.setItem(CART_KEY, JSON.stringify(products));
   }
 }
 
-// Supprimer du panier
+// Supprimer un produit du panier
 
 function removeProductFromCart(article) {
   let productId = article.dataset.id;
   let color = article.dataset.color;
   let products = findProductsFromCart();
   products = products.filter((p) => p.id != productId && p.color == color);
-  localStorage.setItem(CART_KEY, json.stringify(products));
+  localStorage.setItem(CART_KEY, JSON.stringify(products));
   article.remove();
 }
 
@@ -167,93 +168,69 @@ async function calculateNumberAndTotalPriceOfProductsInCart() {
 
 // Validation formulaire
 
-let validationFormulaire = document.getElementById("order");
-let firstName = document.getElementById("firstName");
-let firstName_m = document.getElementById("firstNameErrorMsg");
-let firstName_v =
-  /^[a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+([-'/s][a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+)?/;
-validationFormulaire.addEventListener("click", f_valid);
-
-function f_valid(e) {
+function f_valid(firstName, firstName_m, firstName_v) {
   if (firstName.validity.valueMissing) {
-    e.preventDefault();
     firstName_m.textContent = "Prénom manquant";
     firstName_m.style.color = "red";
+    return false;
   } else if (firstName_v.test(firstName.value) == false) {
-    e.preventDefault();
     firstName_m.textContent = "Format incorrect";
     firstName_m.style.color = "orange";
+    return false;
   } else {
+    return true;
   }
 }
 
-let lastName = document.getElementById("lastName");
-let lastName_m = document.getElementById("lastNameErrorMsg");
-let lastName_v =
-  /^[a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+([-'/s][a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+)?/;
-validationFormulaire.addEventListener("click", lastName_valid);
-
-function lastName_valid(e) {
+function lastName_valid(lastName, lastName_m, lastName_v) {
   if (lastName.validity.valueMissing) {
-    e.preventDefault();
     lastName_m.textContent = "Nom manquant";
     lastName_m.style.color = "red";
+    return false;
   } else if (lastName_v.test(lastName.value) == false) {
-    e.preventDefault();
     lastName_m.textContent = "Format incorrect";
     lastName_m.style.color = "orange";
+    return false;
   } else {
+    return true;
   }
 }
 
-let address = document.getElementById("address");
-let address_m = document.getElementById("addressErrorMsg");
-
-validationFormulaire.addEventListener("click", address_valid);
-
-function address_valid(e) {
+function address_valid(address, address_m) {
   if (address.validity.valueMissing) {
-    e.preventDefault();
     address_m.textContent = "Adresse manquante";
     address_m.style.color = "red";
+    return false;
   } else {
+    return true;
   }
 }
 
-let city = document.getElementById("city");
-let city_m = document.getElementById("cityErrorMsg");
-let city_v =
-  /^[a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+([-'/s][a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+)?/;
-validationFormulaire.addEventListener("click", city_valid);
-
-function city_valid(e) {
+function city_valid(city, city_m, city_v) {
   if (city.validity.valueMissing) {
-    e.preventDefault();
     city_m.textContent = "Ville manquante";
     city_m.style.color = "red";
+    return false;
   } else if (city_v.test(city.value) == false) {
-    e.preventDefault();
     city_m.textContent = "Format incorrect";
     city_m.style.color = "orange";
+    return false;
   } else {
+    return true;
   }
 }
 
-let email = document.getElementById("email");
-let email_m = document.getElementById("emailErrorMsg");
-let email_v = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-validationFormulaire.addEventListener("click", email_valid);
-
-function email_valid(e) {
+function email_valid(email, email_m, email_v) {
   if (email.validity.valueMissing) {
-    e.preventDefault();
     email_m.textContent = "E-mail manquant";
     email_m.style.color = "red";
+    return false;
   } else if (email_v.test(email.value) == false) {
-    e.preventDefault();
     email_m.textContent = "Format incorrect";
     email_m.style.color = "orange";
+    return false;
   } else {
+    return true;
   }
 }
 
@@ -275,7 +252,7 @@ function buildCartProductToHtml(product, color, quantity) {
   let pDelete = document.createElement("p");
 
   article.classList.add("cart__item");
-  article.setAttribute("data-id", product.id);
+  article.setAttribute("data-id", product._id);
   article.setAttribute("data-color", color);
 
   divImg.classList.add("cart__item__img");

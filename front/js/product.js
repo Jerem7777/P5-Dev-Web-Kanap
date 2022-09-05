@@ -20,9 +20,9 @@ productPromise.then(function (product) {
   let choixquantite = document.querySelector('input[id="quantity"]');
   let quantiteProduit;
   // On écoute ce qu'il se passe dans input[name="itemQuantity"]
-  choixquantite.addEventListener("change", (eq) => {
+  choixquantite.addEventListener("change", (e) => {
     // on récupère la valeur de la cible de l'évenement dans couleur
-    quantiteProduit = eq.target.value;
+    quantiteProduit = e.target.value;
     console.log(quantiteProduit);
   });
 
