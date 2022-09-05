@@ -7,8 +7,11 @@ for (let data of datas) {
     cart__items.append(cartHtml);
 
     // Ajouter un écouteur d'évenement pour la modification des quantités
-
+    let Myinput = document.querySelector("itemQuantity");
+    Myinput.addEventListener("click", updateProductQuantityInCart);
     // Ajouter un écouteur d'évenement pour la suppression des articles
+    let deleteProductCart = document.querySelector("deleteItem");
+    deleteProductCart.addEventListener("click", removeProductFromCart);
   });
 }
 

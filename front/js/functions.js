@@ -167,50 +167,94 @@ async function calculateNumberAndTotalPriceOfProductsInCart() {
 
 // Validation formulaire
 
-function formulaire() {
-  let name = document.forms["cart__order"]["lastName"];
-  let firstName = document.forms["cart__order"]["firstName"];
-  let email = document.forms["cart__order"]["email"];
-  let address = document.forms["cart__order"]["address"];
-  let city = document.forms["cart__order"]["city"];
+let validationFormulaire = document.getElementById("order");
+let firstName = document.getElementById("firstName");
+let firstName_m = document.getElementById("firstNameErrorMsg");
+let firstName_v =
+  /^[a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+([-'/s][a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+)?/;
+validationFormulaire.addEventListener("click", f_valid);
 
-  if (name.value == "") {
-    alert("Mettez votre nom.");
-    name.focus();
-    return false;
+function f_valid(e) {
+  if (firstName.validity.valueMissing) {
+    e.preventDefault();
+    firstName_m.textContent = "Prénom manquant";
+    firstName_m.style.color = "red";
+  } else if (firstName_v.test(firstName.value) == false) {
+    e.preventDefault();
+    firstName_m.textContent = "Format incorrect";
+    firstName_m.style.color = "orange";
+  } else {
   }
-  if (firstName.value == "") {
-    alert("Mettez votre prénom.");
-    name.focus();
-    return false;
-  }
-  if (address.value == "") {
-    alert("Mettez votre adresse.");
-    address.focus();
-    return false;
-  }
-  if (city.value == "") {
-    alert("Mettez votre ville.");
-    address.focus();
-    return false;
-  }
-  if (email.value == "") {
-    alert("Mettez une adresse email valide.");
-    email.focus();
-    return false;
-  }
-  if (email.value.indexOf("@", 0) < 0) {
-    alert("Mettez une adresse email valide.");
-    email.focus();
-    return false;
-  }
-  if (email.value.indexOf(".", 0) < 0) {
-    alert("Mettez une adresse email valide.");
-    email.focus();
-    return false;
-  }
+}
 
-  return true;
+let lastName = document.getElementById("lastName");
+let lastName_m = document.getElementById("lastNameErrorMsg");
+let lastName_v =
+  /^[a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+([-'/s][a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+)?/;
+validationFormulaire.addEventListener("click", lastName_valid);
+
+function lastName_valid(e) {
+  if (lastName.validity.valueMissing) {
+    e.preventDefault();
+    lastName_m.textContent = "Nom manquant";
+    lastName_m.style.color = "red";
+  } else if (lastName_v.test(lastName.value) == false) {
+    e.preventDefault();
+    lastName_m.textContent = "Format incorrect";
+    lastName_m.style.color = "orange";
+  } else {
+  }
+}
+
+let address = document.getElementById("address");
+let address_m = document.getElementById("addressErrorMsg");
+
+validationFormulaire.addEventListener("click", address_valid);
+
+function address_valid(e) {
+  if (address.validity.valueMissing) {
+    e.preventDefault();
+    address_m.textContent = "Adresse manquante";
+    address_m.style.color = "red";
+  } else {
+  }
+}
+
+let city = document.getElementById("city");
+let city_m = document.getElementById("cityErrorMsg");
+let city_v =
+  /^[a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+([-'/s][a-zA-ZéèìïÉÈÎÏ][a-zéèêàçîï]+)?/;
+validationFormulaire.addEventListener("click", city_valid);
+
+function city_valid(e) {
+  if (city.validity.valueMissing) {
+    e.preventDefault();
+    city_m.textContent = "Ville manquante";
+    city_m.style.color = "red";
+  } else if (city_v.test(city.value) == false) {
+    e.preventDefault();
+    city_m.textContent = "Format incorrect";
+    city_m.style.color = "orange";
+  } else {
+  }
+}
+
+let email = document.getElementById("email");
+let email_m = document.getElementById("emailErrorMsg");
+let email_v = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+validationFormulaire.addEventListener("click", email_valid);
+
+function email_valid(e) {
+  if (email.validity.valueMissing) {
+    e.preventDefault();
+    email_m.textContent = "E-mail manquant";
+    email_m.style.color = "red";
+  } else if (email_v.test(email.value) == false) {
+    e.preventDefault();
+    email_m.textContent = "Format incorrect";
+    email_m.style.color = "orange";
+  } else {
+  }
 }
 
 // Fonction qui permet de construire le code HTML de cart.html
