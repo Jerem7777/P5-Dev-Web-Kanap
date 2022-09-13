@@ -144,7 +144,7 @@ function removeProductFromCart(article) {
   let productId = article.dataset.id;
   let color = article.dataset.color;
   let products = findProductsFromCart();
-  products = products.filter((p) => p.id != productId && p.color == color);
+  products = products.filter((p) => p.id != productId && p.color != color);
   localStorage.setItem(CART_KEY, JSON.stringify(products));
   article.remove();
 }
@@ -328,3 +328,46 @@ function checkQuantity(quantity) {
     return true;
   }
 }
+
+//fonction permetant de retourner un tableau de tous les ID des produits du panier
+function getProductIdsFromCart() {
+  let ids = [];
+  let arrayProducts = findProductsFromCart();
+  arrayProducts.forEach((product) => {
+    ids.push(product.id);
+  });
+  return ids;
+}
+
+// Mettre les values du formulaire dans un objet
+function getContactInfo(firstName, lastName, address, city, email) {
+  let contact = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    address: address.value,
+    city: city.value,
+    email: email.value,
+  };
+  return contact;
+}
+
+async function order(productIds, contact) {
+  let response = await fetch(`${BASE_URL}/order`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+
+    //make sure to serialize your JSON body
+    body: JSON.stringify({
+      contact: contact,
+      products: productIds,
+    }),
+  });
+  return response.json();
+}
+
+// contact : object qui récupère les réponses du formulaire firstName.value (f)
+// order : fonction pour passer la commande avec fect et "post" dans le body avec order
+// window.location.href = "confirmation.html?orderId= "

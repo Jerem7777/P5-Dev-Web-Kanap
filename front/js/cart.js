@@ -81,10 +81,13 @@ if (findProductsFromCart().length == 0) {
       email_valid(email, email_m, email_v)
     ) {
       // Logique métier pour passer la commande
-      let order = {
-        products: productIds,
-        contact: contact,
-      };
+      let ids = getProductIdsFromCart();
+      let contact = getContactInfo(firstName, lastName, address, city, email);
+      let commandePromise = order(ids, contact);
+      commandePromise.then(function (commande) {
+        console.log(commande);
+        window.location.href = `confirmation.html?orderId=${commande.orderId}`;
+      });
     }
   });
 }
@@ -93,3 +96,11 @@ if (findProductsFromCart().length == 0) {
 // contact : object qui récupère les réponses du formulaire firstName.value (f)
 // order : fonction pour passer la commande avec fect et "post" dans le body avec order
 // window.location.href = "confirmation.html?orderId= "
+
+{
+  // Logique métier pour passer la commande
+  /* let order = {
+    products: productIds,
+    contact: contact,
+  };*/
+}
